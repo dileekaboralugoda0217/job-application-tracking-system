@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class JobService {
@@ -19,5 +20,24 @@ public class JobService {
 
     public Job saveJob(Job job) {
         return jobRepository.save(job);
+    }
+
+    public Optional<Job> getJobById(Long id) {
+        return jobRepository.findById(id);
+    }
+
+    public Job updateJob(Long id, Job updatedJob) {
+
+        Job job = jobRepository.findById(id).orElseThrow();
+
+        job.setCompanyName(updatedJob.getCompanyName());
+        job.setPosition(updatedJob.getPosition());
+        job.setStatus(updatedJob.getStatus());
+
+        return jobRepository.save(job);
+    }
+
+    public void deleteJob(Long id) {
+        jobRepository.deleteById(id);
     }
 }

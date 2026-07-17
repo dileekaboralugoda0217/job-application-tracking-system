@@ -46,6 +46,12 @@ function HomePage() {
   };
 
   const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this job?"
+    );
+
+    if (!confirmDelete) return;
+
     await deleteJob(id);
     loadJobs();
   };
@@ -62,11 +68,18 @@ function HomePage() {
   };
 
   const totalJobs = jobs.length;
-  const appliedJobs = jobs.filter((job) => job.status === "Applied").length;
+  const appliedJobs = jobs.filter(
+    (job) => job.status === "Applied"
+  ).length;
+
   const interviewJobs = jobs.filter(
     (job) => job.status === "Interview"
   ).length;
-  const offerJobs = jobs.filter((job) => job.status === "Offer").length;
+
+  const offerJobs = jobs.filter(
+    (job) => job.status === "Offer"
+  ).length;
+
   const rejectedJobs = jobs.filter(
     (job) => job.status === "Rejected"
   ).length;
@@ -88,22 +101,22 @@ function HomePage() {
 
   return (
     <div className="container mt-4">
-
       <h1 className="text-center mb-4">
         Job Application Tracker
       </h1>
 
+      {/* Dashboard Cards */}
       <div className="row mb-4">
-        <div className="col-md-3">
+        <div className="col-md-2">
           <div className="card text-center">
             <div className="card-body">
-              <h5>Total Jobs</h5>
+              <h5>Total</h5>
               <h2>{totalJobs}</h2>
             </div>
           </div>
         </div>
 
-        <div className="col-md-3">
+        <div className="col-md-2">
           <div className="card text-center">
             <div className="card-body">
               <h5>Applied</h5>
@@ -112,7 +125,7 @@ function HomePage() {
           </div>
         </div>
 
-        <div className="col-md-3">
+        <div className="col-md-2">
           <div className="card text-center">
             <div className="card-body">
               <h5>Interview</h5>
@@ -129,8 +142,18 @@ function HomePage() {
             </div>
           </div>
         </div>
+
+        <div className="col-md-3">
+          <div className="card text-center">
+            <div className="card-body">
+              <h5>Rejected</h5>
+              <h2>{rejectedJobs}</h2>
+            </div>
+          </div>
+        </div>
       </div>
 
+      {/* Add Job Form */}
       <div className="card mb-4">
         <div className="card-body">
           <h3>Add New Job</h3>
@@ -181,6 +204,7 @@ function HomePage() {
         </div>
       </div>
 
+      {/* Job List */}
       <div className="card">
         <div className="card-body">
           <h3>Job List</h3>
@@ -204,7 +228,11 @@ function HomePage() {
                   <td>{job.position}</td>
 
                   <td>
-                    <span className={`badge ${getBadgeClass(job.status)}`}>
+                    <span
+                      className={`badge ${getBadgeClass(
+                        job.status
+                      )}`}
+                    >
                       {job.status}
                     </span>
 
@@ -212,7 +240,10 @@ function HomePage() {
                       className="form-select mt-2"
                       value={job.status}
                       onChange={(e) =>
-                        handleStatusChange(job, e.target.value)
+                        handleStatusChange(
+                          job,
+                          e.target.value
+                        )
                       }
                     >
                       <option value="Applied">Applied</option>
@@ -237,7 +268,6 @@ function HomePage() {
           </table>
         </div>
       </div>
-
     </div>
   );
 }

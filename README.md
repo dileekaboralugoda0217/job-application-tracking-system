@@ -65,3 +65,38 @@ The system allows users to add, view, update, and delete job applications while 
 
 # Project Architecture
 
+The application follows a full-stack architecture.
+
+Frontend:
+- React handles the user interface.
+- Axios communicates with backend REST APIs.
+
+Backend:
+- Spring Boot provides REST API endpoints.
+- Service layer handles business logic.
+- Repository layer communicates with MySQL database.
+
+Database:
+- MySQL stores job application information.
+
+---
+
+# API Endpoints
+
+## Get All Jobs
+
+GET
+
+# Screenshots
+
+## Dashboard
+
+![Dashboard Screenshot](screenshots/dashboard.png)
+
+
+## Create Job
+
+POST
+
+
+

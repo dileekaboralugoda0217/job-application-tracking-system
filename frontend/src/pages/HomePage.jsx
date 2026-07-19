@@ -9,6 +9,8 @@ import {
 function HomePage() {
   const [jobs, setJobs] = useState([]);
 
+  const [searchTerm, setSearchTerm] = useState("");
+
   const [newJob, setNewJob] = useState({
     companyName: "",
     position: "",
@@ -67,7 +69,18 @@ function HomePage() {
     loadJobs();
   };
 
+  const filteredJobs = jobs.filter(
+    (job) =>
+      job.companyName
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      job.position
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+  );
+
   const totalJobs = jobs.length;
+
   const appliedJobs = jobs.filter(
     (job) => job.status === "Applied"
   ).length;
@@ -101,11 +114,12 @@ function HomePage() {
 
   return (
     <div className="container mt-4">
+
       <h1 className="text-center mb-4">
         Job Application Tracker
       </h1>
 
-      {/* Dashboard Cards */}
+      {/* Dashboard */}
       <div className="row mb-4">
         <div className="col-md-2">
           <div className="card text-center">
@@ -197,10 +211,28 @@ function HomePage() {
               </select>
             </div>
 
-            <button type="submit" className="btn btn-success">
+            <button
+              type="submit"
+              className="btn btn-success"
+            >
               Add Job
             </button>
           </form>
+        </div>
+      </div>
+
+      {/* Search */}
+      <div className="card mb-4">
+        <div className="card-body">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search by Company or Position..."
+            value={searchTerm}
+            onChange={(e) =>
+              setSearchTerm(e.target.value)
+            }
+          />
         </div>
       </div>
 
@@ -221,7 +253,7 @@ function HomePage() {
             </thead>
 
             <tbody>
-              {jobs.map((job) => (
+              {filteredJobs.map((job) => (
                 <tr key={job.id}>
                   <td>{job.id}</td>
                   <td>{job.companyName}</td>
@@ -246,17 +278,27 @@ function HomePage() {
                         )
                       }
                     >
-                      <option value="Applied">Applied</option>
-                      <option value="Interview">Interview</option>
-                      <option value="Offer">Offer</option>
-                      <option value="Rejected">Rejected</option>
+                      <option value="Applied">
+                        Applied
+                      </option>
+                      <option value="Interview">
+                        Interview
+                      </option>
+                      <option value="Offer">
+                        Offer
+                      </option>
+                      <option value="Rejected">
+                        Rejected
+                      </option>
                     </select>
                   </td>
 
                   <td>
                     <button
                       className="btn btn-danger btn-sm"
-                      onClick={() => handleDelete(job.id)}
+                      onClick={() =>
+                        handleDelete(job.id)
+                      }
                     >
                       Delete
                     </button>
@@ -268,6 +310,7 @@ function HomePage() {
           </table>
         </div>
       </div>
+
     </div>
   );
 }
